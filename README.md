@@ -12,6 +12,7 @@ Current tracked paths:
 agent/AGENTS.md
 agent/RULES.md
 agent/config.yml
+agent/models.yml
 agent/agents/
 agent/rules/
 agent/skills/
@@ -24,6 +25,7 @@ Live symlink layout:
 ~/.omp/agent/AGENTS.md  -> ~/Documents/omp-config/agent/AGENTS.md
 ~/.omp/agent/RULES.md   -> ~/Documents/omp-config/agent/RULES.md
 ~/.omp/agent/config.yml -> ~/Documents/omp-config/agent/config.yml
+~/.omp/agent/models.yml -> ~/Documents/omp-config/agent/models.yml
 ~/.omp/agent/agents     -> ~/Documents/omp-config/agent/agents
 ~/.omp/agent/rules      -> ~/Documents/omp-config/agent/rules
 ~/.omp/agent/skills     -> ~/Documents/omp-config/agent/skills
@@ -40,11 +42,49 @@ These are machine-local runtime files and should stay out of Git:
 ~/.omp/agent/*.db
 ~/.omp/agent/*.db-wal
 ~/.omp/agent/*.db-shm
+~/.omp/agent/.env
 ~/.omp/agent/sessions/
 ~/.omp/agent/terminal-sessions/
 ```
 
 The repo `.gitignore` also excludes common OMP runtime state, secrets, and package install directories.
+
+## Model providers and secrets
+
+`agent/models.yml` is tracked because it describes model providers and endpoints. It must not contain raw API keys.
+
+For Cliproxy, the tracked provider config reads the key from the live OMP environment:
+
+```yaml
+apiKey: "!printenv CLIPROXY_API_KEY"
+```
+
+Keep the real key in the live, untracked OMP env file:
+
+```text
+~/.omp/agent/.env
+```
+
+Example local-only content:
+
+```dotenv
+CLIPROXY_API_KEY=...
+```
+
+That live file is outside this repo and stays untracked. The repo `.gitignore` also ignores any accidental `agent/.env` or other `.env` file. Use `chmod 600 ~/.omp/agent/.env` on machines that store secrets there.
+
+The current default model role is:
+
+```yaml
+modelRoles:
+  default: cliproxy/gpt-5.5:xhigh
+```
+
+After bootstrapping a new machine, verify the provider is visible:
+
+```bash
+omp models find cliproxy
+```
 
 ## Install on a new machine
 
@@ -125,4 +165,4 @@ unlink "$HOME/.omp/agent/rules"
 cp -R "$HOME/Documents/omp-config/agent/rules" "$HOME/.omp/agent/rules"
 ```
 
-Use the same pattern for `AGENTS.md`, `RULES.md`, `config.yml`, `agents/`, and `skills/`.
+Use the same pattern for `AGENTS.md`, `RULES.md`, `config.yml`, `models.yml`, `agents/`, `rules/`, `skills/`, and `extensions/`.

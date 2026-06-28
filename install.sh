@@ -18,6 +18,7 @@ items=(
   AGENTS.md
   RULES.md
   config.yml
+  models.yml
   agents
   rules
   skills
