@@ -9,6 +9,16 @@ Use this skill as an editing or review pass. Do not guess who wrote a passage fr
 
 For longer lists, edge cases, and source notes, read `skill://no-ai-slop/references/ai-writing-patterns.md`.
 
+## Use available review agents
+
+For longer prose, public-facing text, or source-backed writing, use the available prose review agents instead of doing every pass in the main thread:
+
+- `phrasing-flow-reviewer` checks generic phrasing, fake polish, repeated structure, weak flow, tone drift, and over-smoothed patterns.
+- `grammar-reviewer` checks grammar, spelling, punctuation, agreement, unclear references, and sentence-level readability.
+- `source-checker` checks citations, quotes, URLs, dates, numbers, names, legal claims, and source-backed claims. Use it only when the prose makes factual or source-dependent claims.
+
+Run independent review agents in parallel when the text is long enough to justify it. Do not spawn reviewers for tiny edits where direct revision is faster and lower noise.
+
 ## Rewrite rules
 
 1. **Say the actual thing.** Replace vague claims with the actor, action, date, count, cost, source, or mechanism when it matters.

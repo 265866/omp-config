@@ -19,6 +19,16 @@ Use this skill when the user wants normal prose: emails, posts, replies, notes, 
 8. **Keep useful rough edges.** A short sentence, fragment, or direct phrase can be right. Do not polish the life out of the draft.
 9. **Do not impersonate.** Do not write as a public person. Borrow only general mechanics: direct claims, proof, plain words, and rhythm.
 
+## Use available review agents
+
+For substantial prose edits, public writing, or anything the user may send to someone else, use the available prose review agents instead of doing every pass in the main thread:
+
+- `grammar-reviewer` checks grammar, spelling, punctuation, agreement, unclear references, and sentence-level readability.
+- `phrasing-flow-reviewer` checks generic phrasing, fake polish, repeated structure, weak flow, tone drift, and over-smoothed patterns.
+- `source-checker` checks citations, quotes, URLs, dates, numbers, names, legal claims, and source-backed claims. Use it only when the prose makes factual or source-dependent claims.
+
+Run independent review agents in parallel when the text is long enough to justify it. For tiny rewrites, do the edit directly and keep the response concise.
+
 ## Common rewrites
 
 ### Email
