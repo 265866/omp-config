@@ -15,6 +15,7 @@ agent/config.yml
 agent/agents/
 agent/rules/
 agent/skills/
+agent/extensions/
 ```
 
 Live symlink layout:
@@ -26,6 +27,7 @@ Live symlink layout:
 ~/.omp/agent/agents     -> ~/Documents/omp-config/agent/agents
 ~/.omp/agent/rules      -> ~/Documents/omp-config/agent/rules
 ~/.omp/agent/skills     -> ~/Documents/omp-config/agent/skills
+~/.omp/agent/extensions -> ~/Documents/omp-config/agent/extensions
 ```
 
 Do not symlink the whole `~/.omp/agent` directory. It contains live state such as SQLite databases, WAL files, session data, and terminal session state.
@@ -67,7 +69,6 @@ agent/prompts/
 agent/instructions/
 agent/hooks/
 agent/tools/
-agent/extensions/
 agent/settings.json
 ```
 
