@@ -13,3 +13,17 @@ advisor:
   subagents: true
 features: 
   unexpectedStopDetection: true
+github: 
+  enabled: true
+task: 
+  eager: always
+  maxRecursionDepth: 3
+skills: 
+  enableSkillCommands: false
+commands: 
+  enableClaudeUser: false
+  enableClaudeProject: false
+  enableOpencodeUser: false
+  enableOpencodeProject: false
+secrets: 
+  enabled: true
