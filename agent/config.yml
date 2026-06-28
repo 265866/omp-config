@@ -27,3 +27,5 @@ commands:
   enableOpencodeProject: false
 secrets: 
   enabled: true
+omitThinking: true
+hideThinkingBlock: true
