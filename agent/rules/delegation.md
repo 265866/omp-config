@@ -37,6 +37,7 @@ Use native OMP agents by their current names:
 - `oracle`: hard debugging, senior engineering review, architecture second opinions, or hands-on implementation when the task calls for it
 - `task`: coding, VCS, testing, debugging, QA, migrations, and other work that needs tools; give it an explicit role such as "VCS history specialist" or "Testing strategy specialist"
 - `quick_task`: small mechanical edits or narrow data collection only
+- `commit-agent`: local-only VCS commit specialist; inspects changes, splits atomic commits, stages exact hunks, and commits without pushing
 - `grammar-reviewer`: spelling, grammar, punctuation, and sentence-level readability
 - `phrasing-flow-reviewer`: generic phrasing, weak flow, repeated structure, and tone drift
 - `source-checker`: citations, quotes, URLs, dates, numbers, names, legal claims, and source-backed claims
