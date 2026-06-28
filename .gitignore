@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+
+# OMP runtime state, never commit
+*.db
+*.db-shm
+*.db-wal
+sessions/
+terminal-sessions/
+artifacts/
+blobs/
+cache/
+logs/
+
+# Secrets and local machine state
+.env
+*.token
+
+# Generated or learned state unless manually promoted
+managed-skills/
+
+# If tools/extensions later use package installs
+node_modules/
