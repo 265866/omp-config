@@ -26,9 +26,45 @@ function textFromContent(content: unknown) {
     .join("\n");
 }
 
+type ClipboardBackend = {
+  command: string;
+  args?: string[];
+  label: string;
+};
+
+function clipboardBackend(): ClipboardBackend | undefined {
+  if (process.platform === "darwin") return { command: "pbcopy", label: "pbcopy" };
+
+  if (process.platform === "win32") {
+    return {
+      command: "powershell.exe",
+      args: [
+        "-NoProfile",
+        "-NonInteractive",
+        "-Command",
+        "[Console]::InputEncoding = [System.Text.UTF8Encoding]::new($false); Set-Clipboard -Value ([Console]::In.ReadToEnd())",
+      ],
+      label: "PowerShell Set-Clipboard",
+    };
+  }
+
+  return undefined;
+}
+
 function copyToClipboard(text: string) {
   return new Promise<void>((resolve, reject) => {
-    const child = spawn("pbcopy");
+    const backend = clipboardBackend();
+
+    if (!backend) {
+      reject(
+        new Error(
+          `/copy-all cannot copy to the clipboard on ${process.platform}; supported platforms are macOS and Windows`,
+        ),
+      );
+      return;
+    }
+
+    const child = spawn(backend.command, backend.args ?? []);
     let stderr = "";
 
     child.stderr.on("data", (chunk) => {
@@ -40,7 +76,7 @@ function copyToClipboard(text: string) {
       if (code === 0) {
         resolve();
       } else {
-        reject(new Error(stderr.trim() || `pbcopy exited with code ${code}`));
+        reject(new Error(stderr.trim() || `${backend.label} exited with code ${code}`));
       }
     });
 
@@ -100,11 +136,6 @@ export default function copyAll(pi: ExtensionAPI) {
 
       if (!ctx.hasUI) {
         throw new Error("/copy-all requires an interactive UI");
-      }
-
-      if (process.platform !== "darwin") {
-        ctx.ui.notify("/copy-all currently requires macOS pbcopy", "error");
-        return;
       }
 
       const sections = ctx.sessionManager

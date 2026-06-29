@@ -83,6 +83,12 @@ modelRoles:
   default: cliproxy/gpt-5.5:xhigh
 ```
 
+## Extensions
+
+OMP loads TypeScript extension files from `agent/extensions/` directly. This repo does not add a build step or package lockfile for them.
+
+`/copy-all` copies the current thread to the clipboard on macOS and native Windows. Linux has no clipboard backend in this repo.
+
 ## Editing
 
 Edit files in this repo, not in a copied live config tree.
