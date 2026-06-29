@@ -2,7 +2,27 @@ providers:
   cliproxy:
     baseUrl: https://cliproxyapi.netbird.colton.run/v1
     api: openai-completions
-    apiKey: "!printenv CLIPROXY_API_KEY"
+    apiKey: "!sed -n 's/^CLIPROXY_API_KEY=//p' $HOME/.omp/agent/.env"
     authHeader: true
-    discovery:
-      type: openai-models-list
+    models:
+      - id: gpt-5.5
+        name: GPT-5.5
+        api: openai-completions
+        reasoning: true
+        thinking:
+          mode: effort
+          efforts: [low, medium, high, xhigh]
+        input: [text, image]
+        cost:
+          input: 0
+          output: 0
+          cacheRead: 0
+          cacheWrite: 0
+        contextWindow: 272000
+        maxTokens: 200000
+        compat:
+          supportsStore: false
+          supportsDeveloperRole: false
+          supportsReasoningEffort: true
+          thinkingFormat: openai
+          maxTokensField: max_completion_tokens

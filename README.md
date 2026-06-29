@@ -53,11 +53,15 @@ The repo `.gitignore` also excludes common OMP runtime state, secrets, and packa
 
 `agent/models.yml` is tracked because it describes model providers and endpoints. It must not contain raw API keys.
 
-For Cliproxy, the tracked provider config reads the key from the live OMP environment:
+For Cliproxy, the tracked provider config reads the key directly out of the live, untracked OMP env file:
 
 ```yaml
-apiKey: "!printenv CLIPROXY_API_KEY"
+apiKey: "!sed -n 's/^CLIPROXY_API_KEY=//p' $HOME/.omp/agent/.env"
 ```
+
+The `!` prefix tells OMP to run that command and use its stdout as the key. It is evaluated lazily, every time the provider is loaded.
+
+> Note: OMP does **not** auto-source `~/.omp/agent/.env`.
 
 Keep the real key in the live, untracked OMP env file:
 
