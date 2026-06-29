@@ -2,7 +2,7 @@ providers:
   cliproxy:
     baseUrl: https://cliproxyapi.netbird.colton.run/v1
     api: openai-completions
-    apiKey: "!sed -n 's/^CLIPROXY_API_KEY=//p' $HOME/.omp/agent/.env"
+    apiKey: CLIPROXY_API_KEY
     authHeader: true
     models:
       - id: gpt-5.5

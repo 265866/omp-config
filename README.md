@@ -51,45 +51,36 @@ Windows may require Developer Mode or an elevated PowerShell session for symlink
 
 The installers refuse to overwrite existing files or symlinks that point somewhere else. Move or merge any conflicting live path, then rerun the installer.
 
-## Model providers and secrets
+## Secrets and models
 
-`agent/models.yml` is tracked because it describes model providers and endpoints. It must not contain raw API keys.
-
-For Cliproxy, the tracked provider config reads the key directly out of the live, untracked OMP env file:
+`agent/models.yml` must not contain raw API keys. Cliproxy uses an environment variable name:
 
 ```yaml
-apiKey: "!sed -n 's/^CLIPROXY_API_KEY=//p' $HOME/.omp/agent/.env"
+apiKey: CLIPROXY_API_KEY
 ```
 
-The `!` prefix tells OMP to run that command and use its stdout as the key. It is evaluated lazily, every time the provider is loaded.
+OMP 16.2.5 resolves `models.yml` API keys as env-var-name-or-literal: it checks the environment for `CLIPROXY_API_KEY` first, then falls back to the literal string if unset. Set the key in the process environment or in a local `.env` file.
 
-> Note: OMP does **not** auto-source `~/.omp/agent/.env`.
-
-Keep the real key in the live, untracked OMP env file:
+OMP loads `.env` from the current project, live agent directory, config root, and home directory without overriding already-set environment values. Common local files:
 
 ```text
 ~/.omp/agent/.env
+%USERPROFILE%\.omp\agent\.env
 ```
 
-Example local-only content:
+Example content:
 
 ```dotenv
-CLIPROXY_API_KEY=...
+CLIPROXY_API_KEY=your-key-here
 ```
 
-That live file is outside this repo and stays untracked. The repo `.gitignore` also ignores any accidental `agent/.env` or other `.env` file. Use `chmod 600 ~/.omp/agent/.env` on machines that store secrets there.
+Do not commit `.env` files or raw keys. The repo `.gitignore` excludes runtime databases, sessions, terminal state, logs, secrets, package installs, and OS-generated files.
 
-The current default model role is:
+Current default model role:
 
 ```yaml
 modelRoles:
   default: cliproxy/gpt-5.5:xhigh
-```
-
-After bootstrapping a new machine, verify the provider is visible:
-
-```bash
-omp models find cliproxy
 ```
 
 ## Editing
