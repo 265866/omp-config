@@ -1,6 +1,6 @@
 providers: 
   webSearch: auto
-symbolPreset: nerd
+symbolPreset: unicode
 theme: 
   dark: titanium
 setupVersion: 1
