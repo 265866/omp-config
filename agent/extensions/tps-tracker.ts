@@ -27,15 +27,12 @@ export default function tpsTracker(pi: ExtensionAPI) {
   /** Cumulative time (ms) spent actually streaming output deltas. */
   let totalStreamMs = 0;
 
-  pi.on("agent_start", async (_event, ctx) => {
+  pi.on("agent_start", async (_event) => {
     totalOutputTokens = 0;
     totalStreamMs = 0;
     messageStart = null;
     streamStart = null;
     estimatedStreamedTokens = 0;
-
-    const theme = ctx.ui.theme;
-    ctx.ui.setStatus("tps", theme.fg("dim", "generating..."));
   });
 
   pi.on("message_start", async (event) => {
@@ -46,7 +43,7 @@ export default function tpsTracker(pi: ExtensionAPI) {
     estimatedStreamedTokens = 0;
   });
 
-  pi.on("message_update", async (event, ctx) => {
+  pi.on("message_update", async (event) => {
     if (event.message.role !== "assistant") return;
 
     const streamEvent = event.assistantMessageEvent;
@@ -58,23 +55,6 @@ export default function tpsTracker(pi: ExtensionAPI) {
     const now = Date.now();
     streamStart ??= now;
     estimatedStreamedTokens += deltaLength / 4;
-
-    const elapsed = (now - streamStart) / 1000;
-    const officialTokens = getOutputTokens(event.message);
-    const currentTokens = officialTokens > 0 ? officialTokens : estimatedStreamedTokens;
-
-    if (elapsed > 0 && currentTokens > 0) {
-      const tps = Math.round(currentTokens / elapsed);
-      const tokenLabel = officialTokens > 0
-        ? `${officialTokens} tok`
-        : `~${Math.round(estimatedStreamedTokens)} tok`;
-      const theme = ctx.ui.theme;
-
-      ctx.ui.setStatus(
-        "tps",
-        `${theme.fg("accent", `${tps} tok/s`)} ${theme.fg("dim", `(${tokenLabel} / ${elapsed.toFixed(1)}s)`)}`,
-      );
-    }
   });
 
   pi.on("message_end", async (event) => {
