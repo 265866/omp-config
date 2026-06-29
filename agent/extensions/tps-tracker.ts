@@ -104,7 +104,6 @@ export default function tpsTracker(pi: ExtensionAPI) {
     const detail = theme.fg("dim", `${totalOutputTokens} tokens in ${elapsed.toFixed(1)}s streaming`);
 
     ctx.ui.notify(`TPS ${tpsLabel}  ${detail}`, "info");
-    ctx.ui.setStatus("tps", theme.fg("dim", `done - ${tpsLabel}`));
   });
 
   function resetMessageTracking() {
