@@ -1,12 +1,12 @@
 # OMP config
 
-Personal Oh My Pi configuration tracked in Git.
+Personal Oh My Pi config tracked in Git.
 
-This repo stores hand-authored OMP config only. The live OMP runtime directory stays at `~/.omp/agent`, and selected config paths are symlinked from there into this repo.
+This repo tracks hand-authored files under `agent/`. The live OMP runtime stays outside the repo at `~/.omp/agent` on macOS/Linux/WSL/Git Bash or `%USERPROFILE%\.omp\agent` on native Windows. The installer creates symlinks in the live runtime that point to this repo.
+
+Do not symlink the whole runtime directory. It contains local state, sessions, databases, logs, and secrets.
 
 ## Tracked paths
-
-Current tracked paths:
 
 ```text
 agent/AGENTS.md
@@ -19,35 +19,37 @@ agent/skills/
 agent/extensions/
 ```
 
-Live symlink layout:
+The installers also link optional OMP config paths if they exist in the repo: `agent/commands/`, `agent/prompts/`, `agent/instructions/`, `agent/hooks/`, `agent/tools/`, and `agent/settings.json`.
 
-```text
-~/.omp/agent/AGENTS.md  -> ~/Documents/omp-config/agent/AGENTS.md
-~/.omp/agent/RULES.md   -> ~/Documents/omp-config/agent/RULES.md
-~/.omp/agent/config.yml -> ~/Documents/omp-config/agent/config.yml
-~/.omp/agent/models.yml -> ~/Documents/omp-config/agent/models.yml
-~/.omp/agent/agents     -> ~/Documents/omp-config/agent/agents
-~/.omp/agent/rules      -> ~/Documents/omp-config/agent/rules
-~/.omp/agent/skills     -> ~/Documents/omp-config/agent/skills
-~/.omp/agent/extensions -> ~/Documents/omp-config/agent/extensions
+## Install
+
+macOS, Linux, WSL, or Git Bash:
+
+```bash
+git clone <repo-url> "$HOME/Documents/omp-config"
+cd "$HOME/Documents/omp-config"
+./install.sh
 ```
 
-Do not symlink the whole `~/.omp/agent` directory. It contains live state such as SQLite databases, WAL files, session data, and terminal session state.
+`install.sh` is a Bash script.
 
-## Not tracked
+Native Windows PowerShell:
 
-These are machine-local runtime files and should stay out of Git:
-
-```text
-~/.omp/agent/*.db
-~/.omp/agent/*.db-wal
-~/.omp/agent/*.db-shm
-~/.omp/agent/.env
-~/.omp/agent/sessions/
-~/.omp/agent/terminal-sessions/
+```powershell
+git clone <repo-url> "$env:USERPROFILE\Documents\omp-config"
+cd "$env:USERPROFILE\Documents\omp-config"
+.\install.ps1
 ```
 
-The repo `.gitignore` also excludes common OMP runtime state, secrets, and package install directories.
+If PowerShell blocks the script for this shell:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1
+```
+
+Windows may require Developer Mode or an elevated PowerShell session for symlink creation.
+
+The installers refuse to overwrite existing files or symlinks that point somewhere else. Move or merge any conflicting live path, then rerun the installer.
 
 ## Model providers and secrets
 
@@ -90,83 +92,33 @@ After bootstrapping a new machine, verify the provider is visible:
 omp models find cliproxy
 ```
 
-## Install on a new machine
+## Editing
 
-Clone the repo:
-
-```bash
-git clone <repo-url> "$HOME/Documents/omp-config"
-```
-
-Run the installer:
-
-```bash
-cd "$HOME/Documents/omp-config"
-./install.sh
-```
-
-The installer links the current tracked paths into `~/.omp/agent`. It also knows about future OMP-native config paths, but it only links them if they exist in the repo:
-
-```text
-agent/commands/
-agent/prompts/
-agent/instructions/
-agent/hooks/
-agent/tools/
-agent/settings.json
-```
-
-It refuses to overwrite existing files or symlinks that point somewhere else. If a target already exists on a new machine, merge or move that path manually, then rerun the installer.
-
-## Editing workflow
-
-Edit files in the repo, not through a copied local config tree:
+Edit files in this repo, not in a copied live config tree.
 
 ```bash
 cd "$HOME/Documents/omp-config"
 $EDITOR agent/AGENTS.md
-$EDITOR agent/rules/testing.md
+git status
+git diff
 ```
 
-Then commit normally:
+Commit manually when you want to save a reviewed change:
 
 ```bash
-git status
-git add agent README.md .gitignore install.sh
+git add -A
 git commit -m "Update OMP config"
 ```
 
 Push only when you intend to sync to the remote.
 
-## Adding future OMP config paths
+## Adding or removing linked paths
 
-If you start using another OMP-native config path, create it under `agent/` in this repo:
-
-```bash
-mkdir -p "$HOME/Documents/omp-config/agent/tools"
-```
-
-Then rerun:
-
-```bash
-cd "$HOME/Documents/omp-config"
-./install.sh
-```
-
-The script will create the matching symlink under `~/.omp/agent` if the live path does not already exist.
-
-## Undoing the symlink setup
+To add a new OMP config path, create it under `agent/` and rerun the installer for your platform.
 
 To stop using the repo for one path:
 
-1. Remove the symlink from `~/.omp/agent`.
-2. Copy the corresponding file or directory from `agent/` back into `~/.omp/agent`.
+1. Remove the symlink from the live runtime directory.
+2. Copy the matching file or directory from `agent/` back into the live runtime directory.
 
-Example for `rules/`:
-
-```bash
-unlink "$HOME/.omp/agent/rules"
-cp -R "$HOME/Documents/omp-config/agent/rules" "$HOME/.omp/agent/rules"
-```
-
-Use the same pattern for `AGENTS.md`, `RULES.md`, `config.yml`, `models.yml`, `agents/`, `rules/`, `skills/`, and `extensions/`.
+On Windows, use `Remove-Item` without `-Recurse` when the path is a symlink. If the path is not a symlink, stop and inspect it before deleting anything.

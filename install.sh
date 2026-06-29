@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo_root="${OMP_CONFIG_REPO:-$HOME/Documents/omp-config}"
+repo_root="${OMP_CONFIG_REPO:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)}"
+repo_root="$(cd -- "$repo_root" && pwd)"
 repo_agent="$repo_root/agent"
 live_agent="$HOME/.omp/agent"
 
