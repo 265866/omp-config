@@ -35,3 +35,6 @@ secrets:
   enabled: true
 omitThinking: true
 hideThinkingBlock: true
+dev: 
+  autoqa: 
+    consent: denied
