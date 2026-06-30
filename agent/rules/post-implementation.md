@@ -14,7 +14,7 @@ If a runnable check can't be run, state the constraint and what was skipped. Don
 
 ## 2. Build, lint, and format
 
-Use the repository's configured commands first. Apply language-specific rules from `javascript.md`, `python.md`, and `rust.md` when those stacks are involved.
+Use the repository's configured commands first. Apply language-specific rules from `go.md`, `javascript.md`, `python.md`, and `rust.md` when those stacks are involved.
 
 Fix real warnings before moving on. Keep formatter-only changes separate when they are separable.
 

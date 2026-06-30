@@ -31,6 +31,12 @@ globs:
 - Prefer simple code until the hot path or data size makes the cost real.
 - Benchmark only when the performance risk is real or the trade-off isn't clear from the code.
 
-## Tooling
+## Before committing
 
-Use the repository's Cargo commands and scripts. For final checks, follow `testing.md` and `post-implementation.md`.
+Run these Cargo gates before committing. Install `rustfmt` or `clippy` with `rustup component add` if a component is missing. Use `--all-features` unless the repository defines a different feature matrix, such as mutually exclusive features; run and report that configured matrix instead. If a gate fails, fix the cause and re-run from that gate; do not disable, weaken, or skip checks to pass.
+
+1. `cargo fmt --all -- --check`
+2. `cargo check --all-targets --all-features`
+3. `cargo clippy --all-targets --all-features -- -D warnings`
+4. `cargo test --all-targets --all-features`
+5. If dependencies or feature metadata changed, update `Cargo.lock` with Cargo and commit only the required lockfile changes; otherwise restore unrelated lockfile churn.
