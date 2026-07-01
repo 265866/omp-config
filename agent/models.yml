@@ -14,9 +14,9 @@ providers:
           efforts: [low, medium, high, xhigh]
         input: [text, image]
         cost:
-          input: 0
-          output: 0
-          cacheRead: 0
+          input: 5
+          output: 30
+          cacheRead: 0.5
           cacheWrite: 0
         contextWindow: 272000
         maxTokens: 200000
