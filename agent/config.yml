@@ -1,6 +1,8 @@
 providers: 
   webSearch: auto
   tinyModel: online
+  streamFirstEventTimeoutSeconds: 1200
+  streamIdleTimeoutSeconds: 600
 symbolPreset: unicode
 theme: 
   dark: titanium
@@ -16,6 +18,12 @@ enabledModels:
 disabledProviders: 
   - openai-codex
 defaultThinkingLevel: xhigh
+retry:
+  enabled: true
+  maxRetries: 30
+  baseDelayMs: 1000
+  maxDelayMs: 900000
+  modelFallback: true
 personality: pragmatic
 advisor: 
   enabled: true
