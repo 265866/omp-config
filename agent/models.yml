@@ -1,6 +1,6 @@
 providers:
   cliproxy:
-    baseUrl: https://cliproxyapi.netbird.colton.run/v1
+    baseUrl: https://cliproxyapi.colton.run/v1
     api: openai-completions
     apiKey: CLIPROXY_API_KEY
     authHeader: true
