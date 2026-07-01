@@ -26,8 +26,10 @@ retry:
   modelFallback: true
 personality: pragmatic
 advisor: 
-  enabled: true
-  subagents: true
+  enabled: false
+  subagents: false
+recap:
+  enabled: false
 features: 
   unexpectedStopDetection: true
 github: 
