@@ -26,3 +26,22 @@ providers:
           supportsReasoningEffort: true
           thinkingFormat: openai
           maxTokensField: max_completion_tokens
+      - id: gpt-5.3-codex-spark
+        name: GPT-5.3-Codex-Spark
+        api: openai-completions
+        reasoning: false
+        input: [text]
+        cost:
+          input: 0.6
+          output: 4.5
+          cacheRead: 0.06
+          cacheWrite: 0
+        contextWindow: 128000
+        maxTokens: 60000
+        compat:
+          supportsStore: false
+          supportsDeveloperRole: false
+          supportsReasoningEffort: false
+          supportsForcedToolChoice: false
+          thinkingFormat: openai
+          maxTokensField: max_completion_tokens

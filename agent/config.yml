@@ -1,15 +1,18 @@
 providers: 
   webSearch: auto
+  tinyModel: online
 symbolPreset: unicode
 theme: 
   dark: titanium
 setupVersion: 1
 modelRoles: 
   default: cliproxy/gpt-5.5:xhigh
+  tiny: cliproxy/gpt-5.3-codex-spark
 modelProviderOrder: 
   - cliproxy
 enabledModels: 
   - cliproxy/gpt-5.5
+  - cliproxy/gpt-5.3-codex-spark
 disabledProviders: 
   - openai-codex
 defaultThinkingLevel: xhigh
