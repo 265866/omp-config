@@ -3,6 +3,8 @@ providers:
   tinyModel: online
   streamFirstEventTimeoutSeconds: 1200
   streamIdleTimeoutSeconds: 600
+  maxInFlightRequests:
+    cliproxy: 6
 symbolPreset: unicode
 theme: 
   dark: titanium
@@ -20,10 +22,10 @@ disabledProviders:
 defaultThinkingLevel: xhigh
 retry:
   enabled: true
-  maxRetries: 30
+  maxRetries: 12
   baseDelayMs: 1000
-  maxDelayMs: 900000
-  modelFallback: true
+  maxDelayMs: 60000
+  modelFallback: false
 personality: pragmatic
 advisor: 
   enabled: false
@@ -37,6 +39,7 @@ github:
 task: 
   eager: always
   maxRecursionDepth: 3
+  maxRuntimeMs: 1800000
 skills: 
   enableSkillCommands: false
 commands: 

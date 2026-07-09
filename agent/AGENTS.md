@@ -39,7 +39,7 @@ Stable preferences for how to work with me.
 Ask before:
 
 - adding dependencies or new tools,
-- performing destructive actions, remote VCS sync, deployments, account changes, or private SaaS/API operations,
+- performing destructive actions, remote-mutating VCS operations, deployments, account changes, or private SaaS/API operations,
 - making architecture-level changes,
 - choosing between materially different approaches,
 - changing delegation boundaries after work has started.

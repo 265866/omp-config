@@ -22,8 +22,10 @@ VCS work includes status inspection, diffs, commits, commit splitting, squashing
 
 ## Remote safety
 
-Never perform remote operations without explicit per-action approval.
+Never perform remote-mutating operations without explicit per-action approval.
 
-This includes push, fetch, pull, remote bookmark work, remote tags, and any networked VCS sync. Treat "commit this" as commit-only authorization.
+Remote-mutating means anything that writes to the git platform or a remote repo: push, force-push, creating/moving/deleting remote branches, bookmarks, or tags, opening or editing PRs, issues, comments, or releases, and any `gh`/API call that writes. Treat "commit this" as commit-only authorization.
 
-Before an approved remote operation, state the exact command you intend to run unless the user already gave the exact push/fetch operation to perform. When the user asks to push a jj commit to the current mainline, move the intended bookmark such as `main` to the commit and push that bookmark; don't use generated `push-*` bookmarks unless they explicitly ask for a PR branch.
+Read-only network operations need no approval: clone, fetch, pull, `jj git fetch`, incoming/log against a remote, and viewing PRs, issues, or CI status. Local operations of any kind (commits, rebases, local branches/bookmarks) are governed by normal task scope, not this rule.
+
+Before an approved remote-mutating operation, state the exact command you intend to run unless the user already gave the exact operation to perform. When the user asks to push a jj commit to the current mainline, move the intended bookmark such as `main` to the commit and push that bookmark; don't use generated `push-*` bookmarks unless they explicitly ask for a PR branch.

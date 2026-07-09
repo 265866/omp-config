@@ -32,4 +32,4 @@ For non-trivial implementation work, follow `reviewer.md`. Fix real findings, th
 
 Use `commit-naming.md` for message shape and atomicity. For non-trivial VCS work, follow `vcs.md` and delegate to `task` with a VCS role unless a real VCS specialist exists.
 
-Remote operations still require explicit per-action approval.
+Remote-mutating operations still require explicit per-action approval.
